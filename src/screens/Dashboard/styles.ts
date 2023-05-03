@@ -1,7 +1,10 @@
 import styled from "styled-components/native";
+import { FlatList, FlatListProps } from "react-native";
 import { Feather } from "@expo/vector-icons"; //biblioteca de icones
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { getStatusBarHeight } from "react-native-iphone-x-helper";
+import { getBottomSpace, getStatusBarHeight } from "react-native-iphone-x-helper";
+
+import { DataListProps } from '.'
 
 export const Container = styled.View`
   flex: 1;
@@ -13,7 +16,7 @@ export const Header = styled.View`
   height: ${RFPercentage(
     42
   )}px; /* usando a biblioteca responsive fontsize, no qual dimensiona na proporação de cada tela */
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.primary_black};
   align-items: flex-start;
   justify-content: center;
   flex-direction: row;
@@ -86,4 +89,11 @@ export const Title = styled.Text`
   margin-bottom: 16px;
 `;
 
-export const TransactionList = styled.FlatList``;
+export const TransactionsList = styled(
+  FlatList as new (props: FlatListProps<DataListProps>) => FlatList<DataListProps>
+  ).attrs({
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: {
+    paddingBottom: getBottomSpace()
+  }
+})``;
