@@ -3,8 +3,10 @@ import { FlatList, FlatListProps } from "react-native";
 import { Feather } from "@expo/vector-icons"; //biblioteca de icones
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { getBottomSpace, getStatusBarHeight } from "react-native-iphone-x-helper";
+import { BorderlessButton } from 'react-native-gesture-handler';
 
-import { DataListProps } from '.'
+
+import { DataListProps } from '.';
 
 export const Container = styled.View`
   flex: 1;
@@ -59,6 +61,8 @@ export const UserName = styled.Text`
   font-size: ${RFValue(18)}px;
   font-family: ${({ theme }) => theme.fonts.bold};
 `;
+
+export const LogoutButton = styled(BorderlessButton)``;
 
 export const Icon = styled(Feather)`
   /* Estilização do ícone de sair (power). Visto que é um elemento externo, não usamos '.' visto que não é nativo */
