@@ -70,7 +70,7 @@ export const Icon = styled(Feather)`
   font-size: ${RFValue(24)}px;
 `;
 
-export const HighlghtCards = styled.ScrollView.attrs({
+export const HighlightCards = styled.ScrollView.attrs({
   /* Em vez de colocar as proprieaddes da scrollview no index, pelo attrs você pode já colocar direto aqui pelo styled components, ficando mais inxuto o elemento no index.html */
   horizontal: true,
   showsHorizontalScrollIndicator: false,
@@ -101,3 +101,9 @@ export const TransactionsList = styled(
     paddingBottom: getBottomSpace()
   }
 })``;
+
+export const LoadContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
