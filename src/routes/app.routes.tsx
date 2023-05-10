@@ -8,6 +8,7 @@ const { Navigator, Screen } = createBottomTabNavigator<AppRoutesParamList>();
 
 import { Dashboard } from '../screens/Dashboard';
 import { Register } from '../screens/Register';
+import { Resume } from '../screens/Resume'
 
 
 export type AppRoutesParamList = {
@@ -64,7 +65,7 @@ export function AppRoutes(){
 
            <Screen 
                 name="Resumo"
-                component={Register} /// Navigator será a parte de baixo da tela (bottomtabnavigator), o component irá definiar qual interface será renderizada ao clicar em 'listagem'
+                component={Resume} /// Navigator será a parte de baixo da tela (bottomtabnavigator), o component irá definiar qual interface será renderizada ao clicar em 'listagem'
                 options={{
                     tabBarIcon: (({ size, color }) => 
                         <MaterialIcons

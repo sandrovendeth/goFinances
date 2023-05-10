@@ -1,6 +1,7 @@
 import React from 'react';
+import { RectButton } from 'react-native-gesture-handler';
 
-import { Container, Title, Amount, Footer, Category, Icon, CategoryName, Date} from './styles'
+import { Container, Title, Amount, Footer, Category, Icon, CategoryName, Date, IconClose, IconButton} from './styles'
 import { categories } from '../../utils/categories';
 
 
@@ -33,6 +34,10 @@ export function TransactionCard({data}: Props) {
                 { data.amount }
 
             </Amount>
+
+            <IconButton >
+                <IconClose name={"close"}/>
+            </IconButton>
 
             <Footer>
                 <Category>

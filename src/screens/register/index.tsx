@@ -46,7 +46,8 @@ const schema = Yup.object().shape({
   .number().transform((_value, originalValue) => Number(originalValue.replace(/,/, '.')))
   .typeError('Informe um valor numérico')
   .positive('O valor não pode ser negativo')
-  .required('O valor é obrigatório')
+  .required('O valor é obrigatório'),
+  
 }) 
 export function Register() {
   const [transactionType, setTransactionType] = useState(''); /* useState para armazenar qual botão está selecionado, tendo o fundo e a cor de acordo com a seleção */
@@ -94,11 +95,10 @@ export function Register() {
     } 
     try {   /* Estrutura de tratativas de erros, tenta executar algo e caso não dê certo teremos um catch e verificar o que deu errado, para nós verificarmos o erro daremos o console log e para o usuário um alert */
 
-    const dataKey = '@gofinances:transactions';
-
+      const dataKey = '@gofinances:transactions';
       const data = await AsyncStorage.getItem(dataKey); /* Visto que o setitem substitui/sobrescereve os dados e não acrescenta, sempre teremos somente a última transção, sendo assim necessário recuperar todos os dados do asyncstorage */
       const currentData = data ? JSON.parse(data) : [];
-
+      
       const dataFormatted = [ /* o objeto dataFormatted terá as transações já existentes mais a nova transação */
         newTransaction,
         ...currentData

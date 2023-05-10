@@ -123,10 +123,10 @@ export function Dashboard() {
         lastTransaction: `Última entrada dia${lastTransactionsEntries}`,
       },
       expensives: {
-        amount: expensiveTotal.toLocaleString("pt-BR", {
+        amount: `- ${expensiveTotal.toLocaleString("pt-BR", {
           style: "currency",
           currency: "BRL",
-        }),
+        })}`,
         lastTransaction: `Última saída dia ${lastTransactionsExpensives}`,
       },
       total: {
