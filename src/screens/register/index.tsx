@@ -80,10 +80,10 @@ export function Register() {
 
   async function handleRegister(form: FormData){ /* função assincrona para pidermos usarmos o await */
     if(!transactionType) /* Validação dos estads no qual se não tiver nada no transaction type ele retorna o alerta */
-    return Alert.alert('Selecionte o tipo da transação');
+    return Alert.alert('Selecione o tipo da transação');
 
     if(category.key === 'category') /* se a key de categoria ainda é category quer dizer que ele ainda não digitou nada */
-    return Alert.alert('Selecionte a categoria');
+    return Alert.alert('Selecione a categoria');
 
     const newTransaction = {
       id: String(uuid.v4()), /* Bliblioteca UUID gera rash para os nossos ID's */

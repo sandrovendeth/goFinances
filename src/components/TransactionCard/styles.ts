@@ -15,6 +15,14 @@ export const Container = styled.View`
     margin-bottom: 16px;
 
 `;
+export const IconClose = styled(AntDesign)`
+
+font-size: ${RFValue(20)}px;
+color: ${({ theme }) => theme.colors.text};
+justify-content: center;
+
+
+`
 
 export const Title = styled.Text`
     font-family: ${({theme}) => theme.fonts.regular};
@@ -31,6 +39,7 @@ export const Amount = styled.Text<TransactionProps>`
 
 `;
 
+
 export const Footer = styled.View`
     flex-direction: row;
     justify-content: space-between;
@@ -39,7 +48,6 @@ export const Footer = styled.View`
     margin-top: 19px;
 
 `;
-
 export const Category = styled.View`
     flex-direction: row;
     align-items: center;
@@ -62,15 +70,15 @@ export const Date = styled.Text`
     color: ${({theme}) => theme.colors.text};
 
 `;
-export const IconClose = styled(AntDesign)`
-
-font-size: ${RFValue(20)}px;
-color: ${({ theme }) => theme.colors.text};
-`
-
 export const IconButton = styled(RectButton)`
 width: 20px;
 height: 20px;
 align-items: center;
 justify-content: center;
+`;
+
+export const View = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    
 `;

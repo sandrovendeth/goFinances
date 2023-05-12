@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useFocusEffect } from "@react-navigation/native";
@@ -27,8 +27,10 @@ import {
   TransactionsList,
   LogoutButton,
   LoadContainer,
+  View,
+  
 } from "./styles";
-import { LastTransaction } from "../../components/HighlightCard/styles";
+
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
@@ -69,8 +71,11 @@ export function Dashboard() {
 
   async function loadTransactions() {
     const dataKey = "@gofinances:transactions";
+
     const response = await AsyncStorage.getItem(dataKey);
     const transcations = response ? JSON.parse(response) : [];
+
+  
 
     let entriesTotal = 0;
     let expensiveTotal = 0;
@@ -138,10 +143,38 @@ export function Dashboard() {
       },
     }),
       setIsLoading(false);
+  } 
+   async function handleRemoveSkill(transactionId: string) {
+    const dataKey = '@gofinances:transactions';
+
+    const response = await AsyncStorage.getItem(dataKey);
+    const storagedTransactions = response ? JSON.parse(response) : [];
+
+    const filteredTransactions = storagedTransactions.filter((transactions: DataListProps) => transactions.id !== transactionId);
+
+    setTransactions(filteredTransactions);
+
+    await AsyncStorage.setItem(dataKey, JSON.stringify(filteredTransactions));
+
+    loadTransactions();
+  
   }
+  function alerta(name: string, id: string,) {
+    console.log('alerta')
+    Alert.alert(`Você deseja deletar ${(name)}`,
+    "",
+    [
+      {text: 'Cancelar', },
+      {text: 'Deletar', onPress: ( ) => handleRemoveSkill(id) },
+    ],
+      {cancelable: false}
+    )}
+
+    
 
   useEffect(() => {
     loadTransactions();
+    
 
     // const dataKey = '@gofinances:transactions';
     // AsyncStorage.removeItem(dataKey)
@@ -202,11 +235,14 @@ export function Dashboard() {
           </HighlightCards>
 
           <Transactions>
+          
             <Title>Listagem</Title>
+            
+
             <TransactionsList
               data={transactions}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => <TransactionCard data={item} />}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => <TransactionCard exclude={alerta} data={item} />}           
             />
           </Transactions>
         </>

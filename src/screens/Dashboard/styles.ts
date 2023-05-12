@@ -1,9 +1,10 @@
 import styled from "styled-components/native";
 import { FlatList, FlatListProps } from "react-native";
-import { Feather } from "@expo/vector-icons"; //biblioteca de icones
+import { Feather, AntDesign } from "@expo/vector-icons"; //biblioteca de icones
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { getBottomSpace, getStatusBarHeight } from "react-native-iphone-x-helper";
 import { BorderlessButton } from 'react-native-gesture-handler';
+import { RectButton } from 'react-native-gesture-handler';
 
 
 import { DataListProps } from '.';
@@ -107,3 +108,23 @@ export const LoadContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
+export const IconButton = styled(RectButton)`
+width: 20px;
+height: 20px;
+align-items: center;
+justify-content: center;
+`;
+
+export const View = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    
+`;
+export const IconClose = styled(AntDesign)`
+
+font-size: ${RFValue(20)}px;
+color: ${({ theme }) => theme.colors.text};
+justify-content: center;
+
+
+`

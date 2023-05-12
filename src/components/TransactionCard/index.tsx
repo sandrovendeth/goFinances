@@ -1,56 +1,65 @@
-import React from 'react';
-import { RectButton } from 'react-native-gesture-handler';
+import React from "react";
+import { RectButtonProps } from "react-native-gesture-handler";
 
-import { Container, Title, Amount, Footer, Category, Icon, CategoryName, Date, IconClose, IconButton} from './styles'
-import { categories } from '../../utils/categories';
+import {
+  Container,
+  Title,
+  Amount,
+  Footer,
+  Category,
+  Icon,
+  CategoryName,
+  Date,
+  IconClose,
+  IconButton,
+  View,
+} from "./styles";
+import { categories } from "../../utils/categories";
 
-
-
+interface Categories {
+  name: string;
+  icon: string;
+}
 export interface TransactionCardProps {
-    type: 'positive' | 'negative'
-    name: string;
-    amount: string;
-    category: string;
-    date: string;
+  type: "positive" | "negative";
+  name: string;
+  amount: string;
+  category: string;
+  date: string;
+  id: string;
 }
 
-interface Props {
-    data: TransactionCardProps;
+interface Props extends RectButtonProps {
+  data: TransactionCardProps;
+  exclude: (name: string, id: string) => void;
 }
 
-export function TransactionCard({data}: Props) {
-    const [ category ] = categories.filter( 
-        item => item.key === data.category
-    );
+export function TransactionCard({ data, exclude }: Props) {
+  const [category] = categories.filter((item) => item.key === data.category);
 
-    return (
-        <Container>
-            <Title>
-                {data.name}
-            </Title>
+  return (
+    <Container>
+      <View>
+        <Title>{data.name}</Title>
 
-            <Amount type={data.type}>
-                {data.type ==='negative' && '- '}
-                { data.amount }
+        <IconButton onPress={ () => {exclude(data.name, data.id), console.log('exclude')}} >
+          <IconClose  name={"close"} />
+        </IconButton>
+      </View>
 
-            </Amount>
+      <Amount type={data.type}>
+        {data.type === "negative" && "- "}
+        {data.amount}
+      </Amount>
 
-            <IconButton >
-                <IconClose name={"close"}/>
-            </IconButton>
+      <Footer>
+        <Category>
+          <Icon name={category.icon} />
+          <CategoryName>{category.name}</CategoryName>
+        </Category>
 
-            <Footer>
-                <Category>
-                    <Icon name={category.icon}/>
-                    <CategoryName>
-                        {category.name}
-                    </CategoryName>
-                </Category>
-
-                <Date>
-                    {data.date}
-                </Date>
-            </Footer>
-        </Container>
-    )
+        <Date>{data.date}</Date>
+      </Footer>
+    </Container>
+  );
 }
