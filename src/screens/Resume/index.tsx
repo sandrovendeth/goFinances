@@ -89,8 +89,6 @@ export function Resume() {
 
             const percent = `${(categorySum / expensiveTotal * 100).toFixed(0)}%`;
 
-
-
             totalByCategory.push({
                 key: category.key,
                 name: category.name,

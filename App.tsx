@@ -17,11 +17,11 @@ import * as Splashscreen from "expo-splash-screen";
 
 import theme from "./src/global/styles/theme";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { Routes } from './src/routes'
 import { AppRoutes } from "./src/routes/app.routes";
 import { SignIn } from './src/screens/SignIn';
 
-import { AuthProvider } from './src/hooks/auth';
+import { AuthProvider, useAuth } from './src/hooks/auth';
 
 export default function App() {
   Splashscreen.preventAutoHideAsync();
@@ -31,21 +31,19 @@ export default function App() {
     Poppins_500Medium,
     Poppins_700Bold,
   });
+  const { userStorageLoading } = useAuth();
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || userStorageLoading) {
     return null; // Enquanto as fontes não estiverem disponíveis/carregadas, devolveremos null.
   }
 
   Splashscreen.hideAsync();
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
         <StatusBar barStyle={'light-content' }/>
           <AuthProvider> 
-            <SignIn />
+            <Routes />
           </AuthProvider>
-
-      </NavigationContainer>
     </ThemeProvider>
   );
 }
