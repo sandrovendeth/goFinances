@@ -15,6 +15,7 @@ import { HistoryCard } from '../../components/HistoryCard';
 
 import { Container, Title, Header, Content, ChartContainer, MonthSelect, MonthSelectButton, MonthSelectIcon, Month, LoadContainer } from './styles';
 import { categories } from '../../utils/categories';
+import { useAuth } from '../../hooks/auth';
 
 
 
@@ -41,6 +42,7 @@ export function Resume() {
     const [selectedDate, setSelectedDate] = useState( new Date());
     const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>([]);
     const theme = useTheme();
+    const { user } = useAuth();
 
     function handleDateChange(action: 'next' | 'prev'){
         if(action === 'next') {
@@ -59,7 +61,7 @@ export function Resume() {
 
     async function loadData(){
       setIsLoading(true);
-      const dataKey = '@gofinances:transactions';
+      const dataKey = `@gofinances:transactions_user:${user.id}`;
       const response = await AsyncStorage.getItem(dataKey); /* Visto que o setitem substitui/sobrescereve os dados e não acrescenta, sempre teremos somente a última transção, sendo assim necessário recuperar todos os dados do asyncstorage */
       const responseFormatted = response ? JSON.parse(response) : [];
       

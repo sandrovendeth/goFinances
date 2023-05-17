@@ -27,6 +27,7 @@ import {
 } from "./styles";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { AppRoutesParamList } from '../../routes/app.routes';
+import { useAuth } from '../../hooks/auth';
 
 interface FormData {
   [name: string]: any,
@@ -52,6 +53,8 @@ const schema = Yup.object().shape({
 export function Register() {
   const [transactionType, setTransactionType] = useState(''); /* useState para armazenar qual botão está selecionado, tendo o fundo e a cor de acordo com a seleção */
   const [categoryModalOpen, setCategoryModalOpen] = useState(false); /* estado para verificar se o modal está aberto ou não */
+
+  const { user } = useAuth();
 
   
 
@@ -95,7 +98,7 @@ export function Register() {
     } 
     try {   /* Estrutura de tratativas de erros, tenta executar algo e caso não dê certo teremos um catch e verificar o que deu errado, para nós verificarmos o erro daremos o console log e para o usuário um alert */
 
-      const dataKey = '@gofinances:transactions';
+      const dataKey = `@gofinances:transactions_user:${user.id}`;
       const data = await AsyncStorage.getItem(dataKey); /* Visto que o setitem substitui/sobrescereve os dados e não acrescenta, sempre teremos somente a última transção, sendo assim necessário recuperar todos os dados do asyncstorage */
       const currentData = data ? JSON.parse(data) : [];
       

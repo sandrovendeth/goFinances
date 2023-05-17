@@ -59,22 +59,25 @@ export function Dashboard() {
 
   const{ signOut, user } = useAuth();
 
-  function getLastTransactionDate(
-    collection: DataListProps[], 
-    type: 'positive' | 'negative'
-    ){
+  function getLastTransactionDate(collection: DataListProps[], type: 'positive' | 'negative'){
+
+    const collectionFilttered = collection.filter((transaction) => transaction.type === type)
+
+    if(collectionFilttered.length === 0)
+  
+    return 0;
+
+
 
     const lasTransaction = 
-      new Date()
-      Math.max.apply(Math, collection
-      .filter(transaction => transaction.type === type)
-      .map(transaction => new Date (transaction.date).getTime()))
+      new Date(
+      Math.max.apply(Math, collectionFilttered.map(transaction => new Date (transaction.date).getTime())))
 
     return ` ${lasTransaction.getDate()} de ${lasTransaction.toLocaleString('pt-BR', { month: 'long'})}`;
   }
 
   async function loadTransactions() {
-    const dataKey = "@gofinances:transactions";
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
 
     const response = await AsyncStorage.getItem(dataKey);
     const transcations = response ? JSON.parse(response) : [];
@@ -97,9 +100,9 @@ export function Dashboard() {
           currency: "BRL",
         });
         const date = Intl.DateTimeFormat("pt-BR", {
-          day: "2-digit",
-          month: "long",
-          year: "2-digit",
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
         }).format(new Date(item.date));
 
         return {
@@ -117,7 +120,7 @@ export function Dashboard() {
 
    const lastTransactionsEntries = getLastTransactionDate(transactions, 'positive');
    const lastTransactionsExpensives = getLastTransactionDate(transactions, 'negative');
-   const totalInterval = `01 à${lastTransactionsExpensives}`;
+   const totalInterval = lastTransactionsExpensives === 0 ? 'Não há transações' : `01 à${lastTransactionsExpensives}`;
     
     
 
@@ -129,14 +132,15 @@ export function Dashboard() {
           style: "currency",
           currency: "BRL",
         }),
-        lastTransaction: `Última entrada dia${lastTransactionsEntries}`,
+        lastTransaction: lastTransactionsEntries === 0 ? 'Não há transações' : `Última entrada dia${lastTransactionsEntries}`,
+        
       },
       expensives: {
         amount: `- ${expensiveTotal.toLocaleString("pt-BR", {
           style: "currency",
           currency: "BRL",
         })}`,
-        lastTransaction: `Última saída dia ${lastTransactionsExpensives}`,
+        lastTransaction: lastTransactionsExpensives === 0 ? 'Não há transações' : `Última saída dia ${lastTransactionsExpensives}`,
       },
       total: {
         amount: total.toLocaleString("pt-BR", {
@@ -146,10 +150,11 @@ export function Dashboard() {
         lastTransaction: `Intervalo entre ${totalInterval}`
       },
     }),
+    console.log(lastTransactionsEntries)
       setIsLoading(false);
   } 
    async function handleRemoveSkill(transactionId: string) {
-    const dataKey = '@gofinances:transactions';
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
 
     const response = await AsyncStorage.getItem(dataKey);
     const storagedTransactions = response ? JSON.parse(response) : [];
@@ -164,7 +169,6 @@ export function Dashboard() {
   
   }
   function alerta(name: string, id: string,) {
-    console.log('alerta')
     Alert.alert(`Você deseja deletar ${(name)}`,
     "",
     [
