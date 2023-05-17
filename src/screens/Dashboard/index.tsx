@@ -61,19 +61,18 @@ export function Dashboard() {
 
   function getLastTransactionDate(collection: DataListProps[], type: 'positive' | 'negative'){
 
-    const collectionFilttered = collection.filter((transaction) => transaction.type === type)
-
-    if(collectionFilttered.length === 0)
-  
-    return 0;
+    const collectionFilttered = collection.filter(transaction => transaction.type === type)
 
 
+    if(collectionFilttered.length === 0) {
+      
+      return 0;
+    }
 
-    const lasTransaction = 
-      new Date(
-      Math.max.apply(Math, collectionFilttered.map(transaction => new Date (transaction.date).getTime())))
+    const lastTransaction = new Date(Math.max.apply(Math, collectionFilttered.map(transaction => new Date(transaction.date).getTime())));
 
-    return ` ${lasTransaction.getDate()} de ${lasTransaction.toLocaleString('pt-BR', { month: 'long'})}`;
+
+    return ` ${lastTransaction.getDate()} de ${lastTransaction.toLocaleString('pt-BR', { month: 'long'})}`;
   }
 
   async function loadTransactions() {
@@ -81,8 +80,6 @@ export function Dashboard() {
 
     const response = await AsyncStorage.getItem(dataKey);
     const transcations = response ? JSON.parse(response) : [];
-
-  
 
     let entriesTotal = 0;
     let expensiveTotal = 0;
@@ -116,10 +113,11 @@ export function Dashboard() {
       }
     );
 
-    setTransactions(transcationsFormatted);
+  setTransactions(transcationsFormatted);
 
    const lastTransactionsEntries = getLastTransactionDate(transactions, 'positive');
    const lastTransactionsExpensives = getLastTransactionDate(transactions, 'negative');
+
    const totalInterval = lastTransactionsExpensives === 0 ? 'Não há transações' : `01 à${lastTransactionsExpensives}`;
     
     
@@ -147,10 +145,9 @@ export function Dashboard() {
           style: "currency",
           currency: "BRL",
         }),
-        lastTransaction: `Intervalo entre ${totalInterval}`
+        lastTransaction: totalInterval
       },
     }),
-    console.log(lastTransactionsEntries)
       setIsLoading(false);
   } 
    async function handleRemoveSkill(transactionId: string) {
